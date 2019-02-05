@@ -44,9 +44,10 @@ def get_stdev_and_mean(exp_list, prefix, root_dir = "No root directory", cutoff=
         if cutoff is not None:
             shortest_length = min(cutoff, shortest_length)
             short_length_list = [l[:shortest_length]for l in lengths_list]
-            lengths_array = np.vstack(short_length_list)
         else:
-            lengths_array = np.array(lengths_list)
+            #lengths_array = np.array(lengths_list)
+            short_length_list = [l[:shortest_length]for l in lengths_list]
+        lengths_array = np.vstack(short_length_list)
     stdevs = np.std(lengths_array, axis=0)
     means = np.mean(lengths_array, axis=0)
     return means, stdevs
@@ -122,8 +123,14 @@ def main():
     import sys
     filename = sys.argv[1]
     if "family" in sys.argv:
-        plot_graph({"Experiment":get_exps_from_root(filename, root_dir=".")}, title="Test Title", xlab="Number episodes",
-        root_dir="./",
+        root_dir = "."
+        if "/" in filename: #then the rootdir is actually something else
+            dir_idx = filename.rfind("/")
+            root_dir = filename[:dir_idx]
+            filename = filename[dir_idx+1:]
+
+        plot_graph({"Experiment":get_exps_from_root(filename, root_dir=root_dir)}, title="Test Title", xlab="Number episodes",
+        root_dir=root_dir+"/",
         ylab = "Success rate")  
         plt.show()
     else:
