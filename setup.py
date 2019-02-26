@@ -6,6 +6,6 @@ setup(
    description='RL plotting utilities',
    author='Alex LaGrassa',
    author_email='lagrassa@mit.edu',
-   packages=['foo'],  #same as name
+   packages=['rl_plot'],  #same as name
    install_requires=['matplotlib', 'numpy'], #external packages as dependencies
    )
